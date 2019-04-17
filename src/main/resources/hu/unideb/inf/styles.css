@@ -12,10 +12,10 @@
 
 /* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
 * {
-    -fx-my-menu-color: #424242;                  /* Change according to your needs */
-    -fx-my-menu-color-highlighted: #7c7c7c;      /* Change according to your needs */
-    -fx-my-menu-font-color: #FFFFFF;             /* Change according to your needs */
-    -fx-my-menu-font-color-highlighted: #FFFFFF; /* Change according to your needs */
+    -fx-my-menu-color: #424242;
+    -fx-my-menu-color-highlighted: #7c7c7c;
+    -fx-my-menu-font-color: #FFFFFF;
+    -fx-my-menu-font-color-highlighted: #FFFFFF;
 }
 
 /* MENU BAR + Top-level MENU BUTTONS */
@@ -83,4 +83,56 @@
 /*** The context menu that contains a menu's menu items ***/
 .context-menu {
     -fx-background-color: -fx-my-menu-color;
+}
+
+/* TABLE VIEW */
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color:  #6622CC;
+}
+.table-view .column-header .label{
+   -fx-text-fill: white;
+   -fx-font-weight: bold;
+   -fx-alignment: CENTER_LEFT;
+}
+.table-view .cell{
+  -fx-cell-size: 35;
+  -fx-alignment: center-left;
+  -fx-background-color: #29292D;
+  -fx-border-color: #4c4c54;
+  -fx-text-fill: lightgray;
+  -fx-alignment: CENTER_LEFT;
+
+}
+.table-row-cell:selected {
+   -fx-background-color: #4c4c54;
+   -fx-text-background-color: #4c4c54;
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 2em;
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+	-fx-background-color: transparent;
+	-fx-border-color:derive( #6622CC,80%);
+
+	-fx-background-radius: 2em;
+	-fx-border-radius:2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #6622CC,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+
 }
