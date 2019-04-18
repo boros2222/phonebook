@@ -6,8 +6,25 @@
     -fx-background-color: #424242;
 }
 
-#menuLabel {
+Label {
     -fx-text-fill: #FFFFFF;
+}
+
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: #848484;
+}
+
+TextField {
+    -fx-control-inner-background: #999999;
+}
+
+Button#createButton {
+    -fx-background-color: #848484;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 30;
 }
 
 /* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
@@ -88,7 +105,7 @@
 /* TABLE VIEW */
 .table-view .column-header,
 .table-view .column-header-background .filler {
-    -fx-background-color:  #6622CC;
+    -fx-background-color:  #5357db;
 }
 .table-view .column-header .label{
    -fx-text-fill: white;
@@ -98,8 +115,8 @@
 .table-view .cell{
   -fx-cell-size: 35;
   -fx-alignment: center-left;
-  -fx-background-color: #29292D;
-  -fx-border-color: #4c4c54;
+  -fx-background-color: #333333;
+  -fx-border-color: #424242;
   -fx-text-fill: lightgray;
   -fx-alignment: CENTER_LEFT;
 
@@ -122,7 +139,7 @@
 .table-view .scroll-bar:horizontal .track,
 .table-view .scroll-bar:vertical .track{
 	-fx-background-color: transparent;
-	-fx-border-color:derive( #6622CC,80%);
+	-fx-border-color:derive( #5357db,80%);
 
 	-fx-background-radius: 2em;
 	-fx-border-radius:2em;
@@ -131,8 +148,13 @@
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
 .table-view .scroll-bar:horizontal .thumb,
 .table-view .scroll-bar:vertical .thumb {
-    -fx-background-color:derive( #6622CC,90%);
+    -fx-background-color:derive( #5357db,90%);
 	-fx-background-insets: 2, 0, 0;
 	-fx-background-radius: 2em;
 
+}
+
+.table-view {
+    -fx-border-color: #424242;
+    -fx-background-color: #424242;
 }

@@ -1,21 +1,20 @@
 package hu.unideb.inf;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.layout.StackPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainApp extends Application {
+    private static Logger logger = LoggerFactory.getLogger(MainApp.class);
 
     @Override
     public void start(Stage stage) throws Exception {
+        logger.info("Starting application...");
+
         Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
 
         Scene scene = new Scene(root);

@@ -2,18 +2,17 @@ package hu.unideb.inf;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Contacts {
-    private ArrayList<Contact> elements = new ArrayList<Contact>();
+    private ArrayList<Contact> elements = new ArrayList<>();
     private String fileName;
+
+    private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     public Contacts() { this.fileName = "data.json"; }
 
@@ -35,6 +34,8 @@ public class Contacts {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(this.fileName));
 
         this.elements = gson.fromJson(bufferedReader, new TypeToken<ArrayList<Contact>>(){}.getType());
+
+        logger.info("Data successfully loaded from file (" + this.fileName + ")");
     }
 
     public void saveToDisk() throws IOException {
@@ -43,6 +44,8 @@ public class Contacts {
         FileWriter writer = new FileWriter(this.fileName);
         writer.write(gson.toJson(this.elements));
         writer.close();
+
+        logger.info("Data successfully written to file (" + this.fileName + ")");
     }
 
     public ArrayList<Contact> getElements() {
