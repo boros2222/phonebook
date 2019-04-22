@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -18,6 +19,7 @@
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#showContacts" text="Névjegyek" />
                   <MenuItem mnemonicParsing="false" onAction="#showCreate" text="Új névjegy hozzáadása" />
+                  <MenuItem mnemonicParsing="false" onAction="#showSettings" text="Beállítások" />
                   <MenuItem mnemonicParsing="false" onAction="#showAbout" text="Készítő" />
                   <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Kilépés" />
               </items>
@@ -124,6 +126,34 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="settingsPane" fx:id="settingsPane" layoutX="10.0" layoutY="10.0" prefHeight="596.0" prefWidth="1000.0" visible="false">
+               <children>
+                  <HBox alignment="CENTER" layoutY="92.0" prefHeight="51.0" prefWidth="1000.0" spacing="150.0" AnchorPane.bottomAnchor="453.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="92.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="300.0">
+                           <children>
+                              <Label text="JSON fájl neve" />
+                              <TextField id="filenameField" fx:id="filenameField" prefHeight="25.0" prefWidth="300.0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets right="250.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Separator layoutX="228.0" layoutY="354.0" prefWidth="550.0" />
+                  <Label id="errorLabel2" fx:id="errorLabel2" alignment="CENTER" contentDisplay="CENTER" layoutX="487.0" layoutY="364.0" prefHeight="37.0" prefWidth="1002.0" textAlignment="CENTER" textFill="#ff3d3d" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="364.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Button onAction="#saveSettings" id="saveButton" fx:id="saveButton" layoutX="434.0" layoutY="422.0" mnemonicParsing="false" text="Mentés">
+                     <padding>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </padding>
+                  </Button>
                </children>
             </AnchorPane>
          </children>

@@ -20,7 +20,7 @@ TextField {
     -fx-control-inner-background: #999999;
 }
 
-Button#createButton {
+Button#createButton, Button#saveButton {
     -fx-background-color: #848484;
     -fx-text-fill: white;
     -fx-font-size: 14px;

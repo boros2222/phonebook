@@ -1,7 +1,6 @@
 package hu.unideb.inf;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,8 +12,6 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-
 public class Controller {
     private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
@@ -22,44 +19,32 @@ public class Controller {
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane createPane;
     @FXML private AnchorPane aboutPane;
+    @FXML private AnchorPane settingsPane;
     @FXML private Label menuLabel;
     @FXML private Label errorLabel;
+    @FXML private Label errorLabel2;
     @FXML private TableView tableView;
     @FXML private TextField firstnameField;
     @FXML private TextField lastnameField;
     @FXML private TextField phonenumberField;
     @FXML private TextField emailField;
     @FXML private TextField addressField;
+    @FXML private TextField filenameField;
     @FXML private Button createButton;
 
-    private Contacts contacts = new Contacts("contacts.json");
     private ObservableList<Contact> viewData;
+    private Contacts contacts = new Contacts();
 
     @FXML
     private void showContacts(ActionEvent event) {
-        tablePane.setVisible(true);
-        createPane.setVisible(false);
-        aboutPane.setVisible(false);
-        menuLabel.setText("Névjegyek");
+        showPane(tablePane);
 
         logger.info("Showing contacts menu");
     }
 
     @FXML
     private void showCreate(ActionEvent event) {
-        lastnameField.setText("");
-        lastnameField.setDisable(false);
-        firstnameField.setText("");
-        firstnameField.setDisable(false);
-        phonenumberField.setText("");
-        emailField.setText("");
-        addressField.setText("");
-
-        tablePane.setVisible(false);
-        createPane.setVisible(true);
-        aboutPane.setVisible(false);
-        menuLabel.setText("Új névjegy hozzáadása");
-        createButton.setText("Hozzáadás");
+        showPane(createPane);
 
         if(event instanceof EditEvent) {
             EditEvent editEvent = (EditEvent) event;
@@ -77,11 +62,34 @@ public class Controller {
     }
 
     @FXML
+    private void showSettings(ActionEvent event) {
+        showPane(settingsPane);
+
+        logger.info("Showing settings menu");
+    }
+
+    @FXML
+    private void saveSettings(ActionEvent event) {
+        try {
+            contacts.setFileName(filenameField.getText());
+
+            viewData = loadData();
+            tableView.setItems(viewData);
+            tableView.refresh();
+
+            logger.info("Settings saved successfully");
+
+            showContacts(new ActionEvent());
+        }
+        catch (Exception e) {
+            errorLabel2.setText(e.getMessage());
+            logger.error("Error saving settings: " + e.getMessage());
+        }
+    }
+
+    @FXML
     private void showAbout(ActionEvent event) {
-        tablePane.setVisible(false);
-        createPane.setVisible(false);
-        aboutPane.setVisible(true);
-        menuLabel.setText("Készítő");
+        showPane(aboutPane);
 
         logger.info("Showing about menu");
     }
@@ -101,11 +109,7 @@ public class Controller {
 
                 if(editEvent.getContact() != null) {
                     Contact contact = editEvent.getContact();
-                    contact.setLastName(lastnameField.getText());
-                    contact.setFirstName(firstnameField.getText());
-                    contact.setPhoneNumber(PhoneNumber.of(phonenumberField.getText()));
-                    contact.setEmail(emailField.getText());
-                    contact.setAddress(addressField.getText());
+                    readFields(contact);
 
                     contacts.saveToDisk();
                     tableView.refresh();
@@ -115,11 +119,7 @@ public class Controller {
             }
             else {
                 Contact newContact = new Contact();
-                newContact.setLastName(lastnameField.getText());
-                newContact.setFirstName(firstnameField.getText());
-                newContact.setPhoneNumber(PhoneNumber.of(phonenumberField.getText()));
-                newContact.setEmail(emailField.getText());
-                newContact.setAddress(addressField.getText());
+                readFields(newContact);
 
                 contacts.addContact(newContact);
                 viewData.add(newContact);
@@ -146,30 +146,72 @@ public class Controller {
         phonenumberField.setText(contact.getPhoneNumber().getNumber());
         emailField.setText(contact.getEmail());
         addressField.setText(contact.getAddress());
-
         menuLabel.setText("Névjegy módosítása");
         createButton.setText("Módosítás");
+
         logger.info(contact.getLastName() + " " + contact.getFirstName() + " - editing contact...");
+    }
+
+    public void readFields(Contact contact) throws IllegalArgumentException {
+        contact.setLastName(lastnameField.getText());
+        contact.setFirstName(firstnameField.getText());
+
+        if(!phonenumberField.getText().equals(""))
+            contact.setPhoneNumber(PhoneNumber.of(phonenumberField.getText()));
+
+        if(!emailField.getText().equals(""))
+            contact.setEmail(emailField.getText());
+
+        if(!addressField.getText().equals(""))
+            contact.setAddress(addressField.getText());
+    }
+
+    public void showPane(AnchorPane pane) {
+        tablePane.setVisible(tablePane == pane);
+        createPane.setVisible(createPane == pane);
+        settingsPane.setVisible(settingsPane == pane);
+        aboutPane.setVisible(aboutPane == pane);
+
+        if(tablePane == pane) {
+            menuLabel.setText("Névjegyek");
+        }
+        else if (createPane == pane) {
+            lastnameField.setText("");
+            lastnameField.setDisable(false);
+            firstnameField.setText("");
+            firstnameField.setDisable(false);
+            phonenumberField.setText("");
+            emailField.setText("");
+            addressField.setText("");
+            menuLabel.setText("Új névjegy hozzáadása");
+            createButton.setText("Hozzáadás");
+        }
+        else if (settingsPane == pane) {
+            menuLabel.setText("Beállítások");
+            filenameField.setText(contacts.getFileName());
+        }
+        else if (aboutPane == pane) {
+            menuLabel.setText("Készítő");
+        }
     }
 
     public void initialize() {
         logger.info("Initializing controller...");
         setupTable();
-        ObservableList<Contact> viewData = loadData();
-        if (viewData != null)
-            tableView.setItems(viewData);
+        viewData = loadData();
+        tableView.setItems(viewData);
     }
 
     private ObservableList<Contact> loadData() {
         try {
             contacts.loadFromDisk();
-            viewData = FXCollections.observableArrayList(contacts.getElements());
 
-            return viewData;
+            return FXCollections.observableArrayList(contacts.getElements());
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            logger.error(e.getMessage());
+
+            return FXCollections.observableArrayList();
         }
     }
 
