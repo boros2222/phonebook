@@ -8,7 +8,12 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class for starting application.
+ */
 public class MainApp extends Application {
+
+    /** Logger. */
     private static Logger logger = LoggerFactory.getLogger(MainApp.class);
 
     @Override
@@ -27,6 +32,10 @@ public class MainApp extends Application {
 
     }
 
+    /**
+     * Main method.
+     * @param args arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

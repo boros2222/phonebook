@@ -12,29 +12,57 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class for controlling the application.
+ */
 public class Controller {
+
+    /** Logger. */
     private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
+    /** AnchorPane containing everything. */
     @FXML private AnchorPane mainPane;
+    /** AnchorPane for containing contacts. */
     @FXML private AnchorPane tablePane;
+    /** AnchorPane for containing create menu. */
     @FXML private AnchorPane createPane;
+    /** AnchorPane for containing about menu. */
     @FXML private AnchorPane aboutPane;
+    /** AnchorPane for containing settings menu. */
     @FXML private AnchorPane settingsPane;
+    /** Label for containing the name of current menu. */
     @FXML private Label menuLabel;
+    /** Label for error text. */
     @FXML private Label errorLabel;
+    /** Label for error text. */
     @FXML private Label errorLabel2;
+    /** TableView for contacts. */
     @FXML private TableView tableView;
+    /** TextField for firstname. */
     @FXML private TextField firstnameField;
+    /** TextField for lastname. */
     @FXML private TextField lastnameField;
+    /** TextField for phone number. */
     @FXML private TextField phonenumberField;
+    /** TextField for email address. */
     @FXML private TextField emailField;
+    /** TextField for address. */
     @FXML private TextField addressField;
+    /** TextField for filename. */
     @FXML private TextField filenameField;
+    /** Button for creating new contact. */
     @FXML private Button createButton;
 
+    /** Storing contacts for the view. */
     private ObservableList<Contact> viewData;
+
+    /** Object for storing contacts. */
     private Contacts contacts = new Contacts();
 
+    /**
+     * Showing list of contacts.
+     * @param event event
+     */
     @FXML
     private void showContacts(ActionEvent event) {
         showPane(tablePane);
@@ -42,6 +70,10 @@ public class Controller {
         logger.info("Showing contacts menu");
     }
 
+    /**
+     * Showing create menu.
+     * @param event event
+     */
     @FXML
     private void showCreate(ActionEvent event) {
         showPane(createPane);
@@ -61,6 +93,10 @@ public class Controller {
         logger.info("Showing create/edit menu");
     }
 
+    /**
+     * Showing settings menu.
+     * @param event event
+     */
     @FXML
     private void showSettings(ActionEvent event) {
         showPane(settingsPane);
@@ -68,6 +104,10 @@ public class Controller {
         logger.info("Showing settings menu");
     }
 
+    /**
+     * Saving settings.
+     * @param event event
+     */
     @FXML
     private void saveSettings(ActionEvent event) {
         try {
@@ -87,6 +127,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Showing about menu.
+     * @param event event
+     */
     @FXML
     private void showAbout(ActionEvent event) {
         showPane(aboutPane);
@@ -94,6 +138,10 @@ public class Controller {
         logger.info("Showing about menu");
     }
 
+    /**
+     * Exiting application.
+     * @param event event
+     */
     @FXML
     private void exitApp(ActionEvent event) {
         logger.info("Closing app...");
@@ -101,6 +149,10 @@ public class Controller {
         stage.close();
     }
 
+    /**
+     * Creating new or editing existing contact.
+     * @param event event
+     */
     @FXML
     private void createContact(ActionEvent event) {
         try {
@@ -136,6 +188,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Showing create menu and changing it for editing.
+     * @param contact Contact object we want to edit
+     */
     private void editContact(Contact contact) {
         showCreate(new EditEvent(contact));
 
@@ -152,6 +208,11 @@ public class Controller {
         logger.info(contact.getLastName() + " " + contact.getFirstName() + " - editing contact...");
     }
 
+    /**
+     * Reading data from fields to a Contact object.
+     * @param contact Contact object we want to load data to
+     * @throws IllegalArgumentException when error happens loading data to {@code contact}
+     */
     public void readFields(Contact contact) throws IllegalArgumentException {
         contact.setLastName(lastnameField.getText());
         contact.setFirstName(firstnameField.getText());
@@ -166,6 +227,10 @@ public class Controller {
             contact.setAddress(addressField.getText());
     }
 
+    /**
+     * Showing a menu and hiding the others.
+     * @param pane the menu we want to show
+     */
     public void showPane(AnchorPane pane) {
         tablePane.setVisible(tablePane == pane);
         createPane.setVisible(createPane == pane);
@@ -195,6 +260,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Initializing controller.
+     */
     public void initialize() {
         logger.info("Initializing controller...");
         setupTable();
@@ -202,6 +270,10 @@ public class Controller {
         tableView.setItems(viewData);
     }
 
+    /**
+     * Loading data from disk to a list compatible with the view.
+     * @return a list of contacts compatible with the view.
+     */
     private ObservableList<Contact> loadData() {
         try {
             contacts.loadFromDisk();
@@ -215,6 +287,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Creating table for showing contacts.
+     */
     private void setupTable() {
         menuLabel.setText("Névjegyek");
         tableView.getSelectionModel().setCellSelectionEnabled(true);
