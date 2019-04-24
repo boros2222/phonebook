@@ -3,7 +3,7 @@ Egyszerű grafikus telefonkönyv.
 Névjegyeket tudunk hozzáadni a következő adatokkal:
 - Vezetéknév
 - Keresztnév
-- Telefonszám
+- Telefonszám (Csak magyar mobilszámokat kezel -> 11 számnak kell lennie)
 - Lakcím
 - Email cím
 
